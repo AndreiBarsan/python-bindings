@@ -12,14 +12,15 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(PythonInterp 3.6 REQUIRED EXACT)
 find_package(PythonLibs 3.6 REQUIRED EXACT)
 # This can be installed on Ubuntu using 'apt-get install libboost-python-dev libboost-numpy-dev'
-find_package(Boost REQUIRED COMPONENTS python36 numpy36)
+#find_package(Boost REQUIRED COMPONENTS python36 numpy36)                # Newer cmakes support this cleaner naming.
+find_package(Boost REQUIRED COMPONENTS python-py36 numpy3-py36)        # Older cmakes
 
 #
 # Bindings for the 'native' C++ module.
 #
 add_library(native SHARED some_native_lib.cpp)
 target_include_directories(native PRIVATE ${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-target_link_libraries(native ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} )#-lboost_python-py36)
+target_link_libraries(native ${PYTHON_LIBRARIES} ${Boost_LIBRARIES})
 
 # This ensures that
 # (1) the output library name isn't prefixed by 'lib' so it's, e.g., 'bindings.so' instead of 'libbindings.so', and
