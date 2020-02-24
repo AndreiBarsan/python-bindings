@@ -5,21 +5,21 @@ set(CMAKE_CXX_STANDARD 17)
 
 # If you are using, e.g., anaconda, make sure to pass PYTHON_EXECUTABLE, PYTHON_INCLUDE_DIR, and PYTHON_LIBRARY to
 # cmake. For example: cmake .. '-DPYTHON_EXECUTABLE=$CONDA_ROOT/bin/python
-# -DPYTHON_INCLUDE_DIR=$CONDA_ROOT/include/python3.7m/ -DPYTHON_LIBRARY=$CONDA_ROOT/lib'
+# -DPYTHON_INCLUDE_DIR=$CONDA_ROOT/include/python3.6m/ -DPYTHON_LIBRARY=$CONDA_ROOT/lib'
 #
-# On my machine, $CONDA_ROOT would look like '/home/andreib/miniconda3/env/ml37' (it's a Python 3.7 environment).
+# On my machine, $CONDA_ROOT would look like '/home/andreib/miniconda3/env/ml36' (it's a Python 3.6 environment).
 #
-find_package(PythonInterp 3.7 REQUIRED EXACT)
-find_package(PythonLibs 3.7 REQUIRED EXACT)
+find_package(PythonInterp 3.6 REQUIRED EXACT)
+find_package(PythonLibs 3.6 REQUIRED EXACT)
 # This can be installed on Ubuntu using 'apt-get install libboost-python-dev libboost-numpy-dev'
-find_package(Boost 1.65 REQUIRED COMPONENTS python3 numpy)
+find_package(Boost REQUIRED COMPONENTS python36 numpy36)
 
 #
 # Bindings for the 'native' C++ module.
 #
 add_library(native SHARED some_native_lib.cpp)
 target_include_directories(native PRIVATE ${PYTHON_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-target_link_libraries(native ${PYTHON_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(native ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} )#-lboost_python-py36)
 
 # This ensures that
 # (1) the output library name isn't prefixed by 'lib' so it's, e.g., 'bindings.so' instead of 'libbindings.so', and
